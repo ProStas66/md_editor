@@ -25,6 +25,16 @@ class Main_win:
 		self.main_menu.add_cascade(label='File', menu=self.file_menu)
 		self.master.config(menu=self.main_menu)
 		
+		self.bar_frm = Frame(self.master)
+		self.bar_frm.pack(fill=BOTH)
+		self.bold_btn = Button(self.bar_frm, text='B', width=3, 
+			command=lambda: self.tag_wrap('**'))
+			#command=lambda: self.tag_ins(self.code_txt.index('insert'), '*'))
+		self.bold_btn.pack(side=LEFT, padx=2)
+		self.italic_btn = Button(self.bar_frm, text='I', width=3, 
+			command=lambda: self.tag_wrap('_'))
+		self.italic_btn.pack(side=LEFT, padx=2)
+		
 		
 		self.frm = Frame(self.master, bg='#fcc')
 		self.frm.pack(fill=BOTH, expand=1)
@@ -44,6 +54,17 @@ class Main_win:
 		md2html = Markdown()
 		self.html_view.set_html(md2html.convert(self.code_txt.get('1.0', END)))
 	
+	def tag_wrap(self, tag):
+		selection = self.code_txt.tag_ranges(SEL)
+		if selection:
+			start_ins = selection[0]
+			end_ins = selection[1]
+		self.tag_ins(end_ins, tag)
+		self.tag_ins(start_ins, tag)
+	
+	def tag_ins(self, index, tag):
+		self.code_txt.insert(index, tag)
+	
 	def open_file(self):
 		file_name = filedialog.askopenfilename(filetypes=(('Markdown File', '*.md'),
 															('Text File', '*.txt'),
@@ -61,7 +82,6 @@ class Main_win:
 		file_name = filedialog.asksaveasfilename(filetypes = (('Markdown File', '*.md'),
 							('Text File', '*.txt')), title='Save File', 
 							defaultextension='md', initialfile=self.file_name)
-		print(file_name)
 		if file_name:
 			try:
 				with open(file_name, 'w') as f:
