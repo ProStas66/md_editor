@@ -29,12 +29,17 @@ class Main_win:
 		self.bar_frm.pack(fill=BOTH)
 		self.bold_btn = Button(self.bar_frm, text='B', width=3, 
 			command=lambda: self.tag_wrap('**'))
-			#command=lambda: self.tag_ins(self.code_txt.index('insert'), '*'))
 		self.bold_btn.pack(side=LEFT, padx=2)
 		self.italic_btn = Button(self.bar_frm, text='I', width=3, 
 			command=lambda: self.tag_wrap('_'))
 		self.italic_btn.pack(side=LEFT, padx=2)
-		
+		self.h_btn = Button(self.bar_frm, text='H', width=3, 
+			command=lambda: self.tag_ins('#'))
+		self.h_btn.pack(side=LEFT, padx=2)
+		self.link_btn = Button(self.bar_frm, text='<hr>', width=3, 
+			command=lambda: Ins_win(self.master))
+		self.link_btn.pack(side=LEFT, padx=2)
+
 		
 		self.frm = Frame(self.master, bg='#fcc')
 		self.frm.pack(fill=BOTH, expand=1)
@@ -59,10 +64,12 @@ class Main_win:
 		if selection:
 			start_ins = selection[0]
 			end_ins = selection[1]
-		self.tag_ins(end_ins, tag)
-		self.tag_ins(start_ins, tag)
+		self.tag_ins(tag, end_ins)
+		self.tag_ins(tag, start_ins)
 	
-	def tag_ins(self, index, tag):
+	def tag_ins(self, tag, index=None):
+		if not index:
+			index = self.code_txt.index('insert')
 		self.code_txt.insert(index, tag)
 	
 	def open_file(self):
@@ -90,6 +97,18 @@ class Main_win:
 			except:
 				messagebox.showerror('Ошибка', f'Файл {file_name} не может быть сохранён')
 
+class Ins_win:
+	def __init__(self, master):
+		self.slave = Toplevel(master)
+		self.slave.title('Картинко')
+		self.init_win()
+	
+	def init_win(self):
+		self.opis_lbl = Label(self.slave, text='Описание')
+		self.opis_lbl.pack(side=LEFT)
+		self.opis_txt = Entry(self.slave, width=20)
+		self.opis_txt.pack(side=LEFT)
+		
 
 root = Tk()
 Main_win(root)
