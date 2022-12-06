@@ -48,7 +48,7 @@ class Main_win:
 		self.code_txt.bind('<<Modified>>', self.onInputChange)
 		self.code_txt.pack(fill=BOTH, expand=1, side=LEFT)
 		
-		self.html_view = HTMLLabel(self.frm, width=1, background='#ffc', html='Привет')
+		self.html_view = HTMLLabel(self.frm, width=1, background='#ffc', html='HTML')
 		self.html_view.pack(fill=BOTH, expand=1, side=RIGHT)
 		self.html_view.fit_height()
 		
@@ -104,10 +104,26 @@ class Ins_win:
 		self.init_win()
 	
 	def init_win(self):
-		self.opis_lbl = Label(self.slave, text='Описание')
+		self.ent_box = Frame(self.slave)
+		self.ent_box.pack(fill=BOTH)
+		self.opis_lbl = Label(self.ent_box, text='Описание')
 		self.opis_lbl.pack(side=LEFT)
-		self.opis_txt = Entry(self.slave, width=20)
+		self.opis_txt = Entry(self.ent_box, width=20)
 		self.opis_txt.pack(side=LEFT)
+		self.link_lbl = Label(self.ent_box, text='Путь / ссылка')
+		self.link_lbl.pack(side=LEFT)
+		self.link_txt = Entry(self.ent_box, width=20)
+		self.link_txt.pack(side=LEFT)
+		self.b_box = Frame(self.slave)
+		self.b_box.pack(fill=BOTH, pady=5)
+		self.img_btn = Button(self.b_box, text='Картинко', command=self.slave.destroy)
+		self.img_btn.pack(side=LEFT, padx=20)
+		self.ok_btn = Button(self.b_box, text='ОК', command=self.slave.destroy)
+		self.ok_btn.pack(side=RIGHT, padx=2)
+		self.cancel_btn = Button(self.b_box, text='Cancel', command=self.slave.destroy)
+		self.cancel_btn.pack(side=RIGHT, padx=2)
+
+		
 		
 
 root = Tk()
