@@ -9,7 +9,7 @@ from tkhtmlview import HTMLLabel
 class Main_win:
 	def __init__(self, master):
 		self.master = master
-		self.file_name = 'test.md'
+		self.file_name = 'NoName.md'
 		self.init_win()
 		
 	def init_win(self):
@@ -35,6 +35,11 @@ class Main_win:
 		self.italic_btn.pack(side=LEFT, padx=2)
 		self.h_btn = Button(self.bar_frm, text='H', width=3, 
 			command=lambda: self.tag_ins('#'))
+		
+		self.italic_btn = Button(self.bar_frm, text='<code>', width=5, 
+			command=lambda: self.tag_wrap('`'))
+		self.italic_btn.pack(side=LEFT, padx=2)
+		
 		self.h_btn.pack(side=LEFT, padx=2)
 		self.link_btn = Button(self.bar_frm, text='<img>', width=5, 
 			command=lambda: self.open_dialog("!"))
@@ -75,10 +80,11 @@ class Main_win:
 			index = self.code_txt.index('insert')
 		self.code_txt.insert(index, tag)
 	
-	def open_dialog(self, flag=None):
+	def open_dialog(self, flag=''):
 		self.dialog = Ins_win(self.master, flag)
 		self.return_value = self.dialog.go()
-		print(self.return_value)
+		if self.return_value:
+			self.tag_ins(self.return_value)
 	
 	def open_file(self):
 		file_name = filedialog.askopenfilename(filetypes=(('Markdown File', '*.md'),
@@ -109,7 +115,7 @@ class Ins_win:
 	def __init__(self, master, flag):
 		self.slave = Toplevel(master)
 		self.flag = flag
-		self.slave.title('Картинко')
+		self.slave.title('Insert link')
 		self.init_win()
 	
 	def init_win(self):
@@ -125,12 +131,21 @@ class Ins_win:
 		self.link_txt.pack(side=LEFT)
 		self.b_box = Frame(self.slave)
 		self.b_box.pack(fill=BOTH, pady=5)
-		self.img_btn = Button(self.b_box, text='Картинко', command=self.slave.destroy)
-		self.img_btn.pack(side=LEFT, padx=20)
+		self.img_btn = Button(self.b_box, text='Image', command=self.open_img)
+		
 		self.ok_btn = Button(self.b_box, text='ОК', command=self.ok)
 		self.ok_btn.pack(side=RIGHT, padx=2)
 		self.cancel_btn = Button(self.b_box, text='Cancel', command=self.slave.destroy)
 		self.cancel_btn.pack(side=RIGHT, padx=2)
+		if self.flag:
+			self.slave.title('Insert image')
+			self.img_btn.pack(side=LEFT, padx=20)
+	
+	def open_img(self):
+		file_name = filedialog.askopenfilename(filetypes=(('Image File', '*.jpg *.jpeg *.png *.gif'),
+														('All Files', '*.*')))
+		self.link_txt.insert(0, file_name)
+	
 		
 	def go(self):
 		self.value = None
