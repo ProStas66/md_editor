@@ -19,7 +19,7 @@ class Main_win:
 		self.main_menu = Menu(self.master)
 		self.file_menu = Menu(self.main_menu, tearoff=0)
 		self.file_menu.add_command(label='Open', command=self.open_file)
-		self.file_menu.add_command(label='Save', command=self.save_file)
+		self.file_menu.add_command(label='SaveAs', command=self.save_file)
 		self.file_menu.add_separator()
 		self.file_menu.add_command(label='Exit', command=self.master.quit)
 		self.main_menu.add_cascade(label='File', menu=self.file_menu)
@@ -36,8 +36,11 @@ class Main_win:
 		self.h_btn = Button(self.bar_frm, text='H', width=3, 
 			command=lambda: self.tag_ins('#'))
 		self.h_btn.pack(side=LEFT, padx=2)
-		self.link_btn = Button(self.bar_frm, text='<hr>', width=3, 
-			command=lambda: Ins_win(self.master))
+		self.link_btn = Button(self.bar_frm, text='<img>', width=5, 
+			command=lambda: self.open_dialog("!"))
+		self.link_btn.pack(side=LEFT, padx=2)
+		self.link_btn = Button(self.bar_frm, text='<link>', width=5, 
+			command=self.open_dialog)
 		self.link_btn.pack(side=LEFT, padx=2)
 
 		
@@ -72,6 +75,11 @@ class Main_win:
 			index = self.code_txt.index('insert')
 		self.code_txt.insert(index, tag)
 	
+	def open_dialog(self, flag=None):
+		self.dialog = Ins_win(self.master, flag)
+		self.return_value = self.dialog.go()
+		print(self.return_value)
+	
 	def open_file(self):
 		file_name = filedialog.askopenfilename(filetypes=(('Markdown File', '*.md'),
 															('Text File', '*.txt'),
@@ -98,8 +106,9 @@ class Main_win:
 				messagebox.showerror('Ошибка', f'Файл {file_name} не может быть сохранён')
 
 class Ins_win:
-	def __init__(self, master):
+	def __init__(self, master, flag):
 		self.slave = Toplevel(master)
+		self.flag = flag
 		self.slave.title('Картинко')
 		self.init_win()
 	
@@ -118,10 +127,21 @@ class Ins_win:
 		self.b_box.pack(fill=BOTH, pady=5)
 		self.img_btn = Button(self.b_box, text='Картинко', command=self.slave.destroy)
 		self.img_btn.pack(side=LEFT, padx=20)
-		self.ok_btn = Button(self.b_box, text='ОК', command=self.slave.destroy)
+		self.ok_btn = Button(self.b_box, text='ОК', command=self.ok)
 		self.ok_btn.pack(side=RIGHT, padx=2)
 		self.cancel_btn = Button(self.b_box, text='Cancel', command=self.slave.destroy)
 		self.cancel_btn.pack(side=RIGHT, padx=2)
+		
+	def go(self):
+		self.value = None
+		self.slave.grab_set()
+		self.slave.focus_set()
+		self.slave.wait_window()
+		return self.value
+	
+	def ok(self):
+		self.value = f'{self.flag}[{self.opis_txt.get()}]({self.link_txt.get()})'
+		self.slave.destroy()
 
 		
 		
