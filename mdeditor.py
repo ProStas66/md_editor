@@ -101,8 +101,9 @@ class Main_win:
 	def save_file(self):
 		file_data = self.code_txt.get('1.0', END)
 		file_name = filedialog.asksaveasfilename(filetypes = (('Markdown File', '*.md'),
-							('Text File', '*.txt')), title='Save File', 
-							defaultextension='md', initialfile=self.file_name)
+							('Text File', '*.txt'), ('All Files', '*.*')), 
+							title='Save File', initialfile=self.file_name)
+							#defaultextension='md', initialfile=self.file_name)
 		if file_name:
 			try:
 				with open(file_name, 'w') as f:
