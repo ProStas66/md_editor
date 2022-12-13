@@ -1,3 +1,3 @@
 # md_editor
-редактор *.md файлов, для правки REABME, честно списанный с [How to Build a Toy Markdown Editor](https://www.freecodecamp.org/news/lets-create-a-toy-markdown-editor-with-python-tkinter/)
-Добавлены кнопки для форматирования. Возможно буду вносить дополнения, или нет.
+СЂРµРґР°РєС‚РѕСЂ *.md С„Р°Р№Р»РѕРІ, РґР»СЏ РїСЂР°РІРєРё README, С‡РµСЃС‚РЅРѕ СЃРїРёСЃР°РЅРЅС‹Р№ СЃ [How to Build a Toy Markdown Editor](https://www.freecodecamp.org/news/lets-create-a-toy-markdown-editor-with-python-tkinter/)
+Р”РѕР±Р°РІР»РµРЅС‹ РєРЅРѕРїРєРё РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ. Р’РѕР·РјРѕР¶РЅРѕ Р±СѓРґСѓ РІРЅРѕСЃРёС‚СЊ РґРѕРїРѕР»РЅРµРЅРёСЏ, РёР»Рё РЅРµС‚.
