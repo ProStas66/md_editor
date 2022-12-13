@@ -93,6 +93,7 @@ class Main_win:
 		if file_name:
 			try:
 				self.code_txt.delete('1.0', END)
+				self.master.title(file_name)
 				with open (file_name) as file_object:
 					self.code_txt.insert(END, file_object.read())
 			except:
@@ -109,6 +110,7 @@ class Main_win:
 				with open(file_name, 'w') as f:
 					f.write(file_data)
 				self.file_name = file_name
+				self.master.title(file_name)
 			except:
 				messagebox.showerror('Ошибка', f'Файл {file_name} не может быть сохранён')
 
